@@ -11,7 +11,7 @@ server.use(express.json());
 server.use(logger);
 //Routers
 
-// server.use("api/actions", actionRouter);
+server.use("api/actions", actionRouter);
 
 server.use("api/projects", projectRouter);
 
