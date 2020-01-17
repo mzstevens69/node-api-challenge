@@ -42,9 +42,9 @@ router.get("/:id", validateAction_id, (req, res) => {
 
 //POST Create new action
 
-router.post(":id/actions", validateAction, (req, res) => {
+router.post("/action", validateAction,  (req, res) => {
     
-    actionsDb.insert(req.body)
+    actionDb.insert(req.body)
         .then(action => {
            res.status(201).json(action) 
         })
@@ -58,12 +58,12 @@ router.post(":id/actions", validateAction, (req, res) => {
 
 // PUT edit action by id
 
-router.put("/:id", validateAction_id, (res, req) => {
+router.put("/:id", validateAction_id, (req, res) => {
     const valid = req.body;
     const id = req.params.id;
-    actionDb.update(valid, id)
-        .then(edit => {
-            res.status(200).json(edit)
+    actionDb.update(id, valid)
+        .then(Edit => {
+            res.status(200).json(Edit)
             console.log(id)
         })
         .catch(err => {
@@ -73,13 +73,27 @@ router.put("/:id", validateAction_id, (res, req) => {
             })
         })
 })
+// DELETE  remove a action
 
+router.delete("/:id", validateAction_id, (req, res) => {
+    const id = req.params.id
+    actionDb.remove(id)
+        .then(deleted => {
+            res.status(200).json(deleted)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: "There was an error while saving to database."
+            })
+        })
+})
 
 //Custom Middleware
 function validateAction(req, res, next) {
     
     const valid = req.body;
-    if (valid.project_id === null)
+    if (valid.project_id === undefined)
         res.status(400).json({
             errorMessage: " Project Id is required."
         })
