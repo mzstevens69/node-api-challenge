@@ -1,19 +1,23 @@
 const express = require("express");
 
+
+
+const helmet = require("helmet");
+
 const server = express()
 
 const actionRouter = require("../router/actionRouter");
 
 const projectRouter = require("../router/projectRouter");
 
-
+server.use(helmet());
 server.use(express.json());
 server.use(logger);
 //Routers
 
-server.use("api/actions", actionRouter);
+server.use("/actions", actionRouter);
 
-server.use("api/projects", projectRouter);
+server.use("/projects", projectRouter);
 
 //start page
 

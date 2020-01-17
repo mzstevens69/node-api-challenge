@@ -5,6 +5,8 @@ const router = require("express").Router();
 
 const projectDb = require("../data/helpers/projectModel");
 
+router.use(express.json());
+
 
 
 // GET all projects
